@@ -1,3 +1,5 @@
-public class EmptyFileException {
+import java.io.IOException;
+
+public class EmptyFileException extends IOException {
     
 }
