@@ -1,9 +1,18 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class WordCounter {
     //Counts the number of words in the text up to a stopword
     //If stopword null count all words in the file
     //If stopword not found raise an InvalidStopwordException
     //If the count is less than five raise a TooSmallTextException
     public int processText (StringBuffer text, String stopword) {
+        // Specifies a regular expression
+        Pattern regex = Pattern.compile("your regular expression here");
+        Matcher regexMatcher = regex.matcher(text);
+        while (regexMatcher.find()) {
+            System.out.println("I just found the word: " + regexMatcher.group());
+        } 
         int count = 0;
         if (stopword == null) {
 
@@ -27,6 +36,6 @@ public class WordCounter {
     //If stopword not specified allow one chance to input a stopword
     //Calls the process methods depending on the option inputed and outputs the count
     public static void main (String[] args) {
-        
+
     }
 }
