@@ -1,5 +1,12 @@
 public class InvalidStopwordException extends Exception {
-    public InvalidStopwordException (String message) {
-        super(message);
+    private String stopword;
+    
+    public InvalidStopwordException (String stopword) {
+        super("Couldn't find stopword: " + stopword);
+        this.stopword = stopword;
+    }
+
+    public String toString() {
+        return "InvalidSoptwordException: Couldn't find stopword: " + stopword;
     }
 }
