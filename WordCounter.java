@@ -3,6 +3,9 @@ import java.util.regex.Pattern;
 import java.io.*;
 import java.util.Scanner;
 import java.io.File;
+import java.io.EmptyFileException;
+import java.io.TooSmallText;
+import java.io.InvalidStopwordException;
 
 public class WordCounter {
     //Counts the number of words in the text up to a stopword
@@ -68,6 +71,24 @@ public class WordCounter {
     //If stopword not specified allow one chance to input a stopword
     //Calls the process methods depending on the option inputed and outputs the count
     public static void main (String[] args) {
-
+        StringBuffer text = new StringBuffer();
+        String stopword = null;
+        try {
+            text = processFile(args[0]);
+        } catch (EmptyFileException e) {
+            System.out.println(e);
+            text = new StringBuffer("");
+        }
+        if (args.length > 1) {
+            stopword = args[1];
+        }
+        try {
+            int count = processText(text, stopword);
+            System.out.println("Found " + count + " words.");
+        } catch (InvalidStopwordException e) {
+            System.out.println(e);
+        } catch (TooSmallText e) {
+            System.out.println(e);
+        }
     }
 }
