@@ -2,7 +2,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.*;
 import java.util.Scanner;
-import java.io.File;
 
 public class WordCounter {
     //Counts the number of words in the text up to a stopword
@@ -18,16 +17,16 @@ public class WordCounter {
         while (regexMatcher.find()) {
             String word = regexMatcher.group();
             count++;
-            if (word.equalsIgnoreCase(stopword)) {
+            if (stopword != null && word.equals(stopword)) {
                 foundStopword = true;
                 break;
             }
         } 
-        if (stopword != null && foundStopword == false) {
-            throw new InvalidStopwordException(stopword);
-        }
         if (count < 5) {
             throw new TooSmallText(count);
+        }
+        if (stopword != null && foundStopword == false) {
+            throw new InvalidStopwordException(stopword);
         }
         return count;
     }
@@ -37,8 +36,9 @@ public class WordCounter {
     public static StringBuffer processFile (String path) throws EmptyFileException{
         File file = new File(path);
         Scanner input = new Scanner(System.in);
+        //Keep asking for file until valid file entered
         while (file.exists() == false) {
-            System.out.print("");
+            System.out.print("File not found. Please enter a valid filename: ");
             String newPath = input.nextLine();
             file = new File(newPath);
         }
@@ -47,7 +47,10 @@ public class WordCounter {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                sb.append(line).append(" ");
+                if (isEmpty == false) {
+                    sb.append(" ");
+                }
+                sb.append(line);
                 isEmpty = false;
             }
         } catch (IOException e) {

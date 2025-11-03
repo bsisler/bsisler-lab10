@@ -7,6 +7,6 @@ public class InvalidStopwordException extends Exception {
     }
 
     public String toString() {
-        return "InvalidSoptwordException: Couldn't find stopword: " + stopword;
+        return "InvalidStopwordException: Couldn't find stopword: " + stopword;
     }
 }
