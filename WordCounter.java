@@ -3,41 +3,33 @@ import java.util.regex.Pattern;
 import java.io.*;
 import java.util.Scanner;
 import java.io.File;
-import java.io.EmptyFileException;
-import java.io.TooSmallText;
-import java.io.InvalidStopwordException;
 
 public class WordCounter {
     //Counts the number of words in the text up to a stopword
     //If stopword null count all words in the file
     //If stopword not found raise an InvalidStopwordException
     //If the count is less than five raise a TooSmallTextException
-    public static int processText (StringBuffer text, String stopword) {
-        throws InvalidStopwordException, TooSmallText {
-            // Specifies a regular expression / word
-            Pattern regex = Pattern.compile("[a-zA-Z0-9']+");
-            Matcher regexMatcher = regex.matcher(text);
-
-            int count = 0;
-            boolean foundStopword = false;
-
-            while (regexMatcher.find()) {
-                String word = regexMatcher.group();
-                count++;
-                if (word.equalsIgnoreCase(stopword)) {
-                    foundStopword = true;
-                    break;
-                }
-            } 
-
-            if (stopword == null) {
-                throw new InvalidStopwordException(stopword);
+    public static int processText (StringBuffer text, String stopword) throws InvalidStopwordException, TooSmallText {
+        // Specifies a regular expression / word
+        Pattern regex = Pattern.compile("[a-zA-Z0-9']+");
+        Matcher regexMatcher = regex.matcher(text);
+        int count = 0;
+        boolean foundStopword = false;
+        while (regexMatcher.find()) {
+            String word = regexMatcher.group();
+            count++;
+            if (word.equalsIgnoreCase(stopword)) {
+                foundStopword = true;
+                break;
             }
-            if (count < 5) {
-                throw new TooSmallText(count);
-            }
-            return count;
+        } 
+        if (stopword != null && foundStopword == false) {
+            throw new InvalidStopwordException(stopword);
         }
+        if (count < 5) {
+            throw new TooSmallText(count);
+        }
+        return count;
     }
     //Converts the contents of a file to a StringBuffer
     //If the file cannot be opened prompt the user to re-enter the filename until it can be opened
