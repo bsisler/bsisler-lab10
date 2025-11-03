@@ -14,6 +14,7 @@ public class WordCounter {
         Matcher regexMatcher = regex.matcher(text);
         int count = 0;
         boolean foundStopword = false;
+        //Goes through each word in the text
         while (regexMatcher.find()) {
             String word = regexMatcher.group();
             count++;
@@ -22,6 +23,7 @@ public class WordCounter {
                 break;
             }
         } 
+        //Checks for exceptions
         if (count < 5) {
             throw new TooSmallText(count);
         }
@@ -42,6 +44,7 @@ public class WordCounter {
             String newPath = input.nextLine();
             file = new File(newPath);
         }
+        //Converts the text in the file to a string buffer
         StringBuilder sb = new StringBuilder();
         boolean isEmpty = true;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -55,6 +58,7 @@ public class WordCounter {
             }
         } catch (IOException e) {
         }
+        //Checks for exception
         if (isEmpty == true) {
             throw new EmptyFileException(file.getName());
         }
